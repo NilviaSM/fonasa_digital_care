@@ -69,7 +69,7 @@ def atender_paciente(no_historia_clinica):
         if consulta:
             consulta_id = consulta['id']
     else:
-        # Jóvenes o ancianos, atender en CGI
+        # Jovenes o ancianos, atender en CGI
         cursor.execute("SELECT id FROM consulta WHERE estado = 'en_espera' AND tipo_consulta = 'cgi' LIMIT 1")
         consulta = cursor.fetchone()
         if consulta:
@@ -83,7 +83,7 @@ def atender_paciente(no_historia_clinica):
         connection.close()
         return jsonify({"mensaje": "Paciente enviado a la sala de espera"}), 200
     
-    # Asignar la consulta al paciente y marcar la consulta como ocupada
+    # Asigna la consulta al paciente y marcar la consulta como ocupada
     cursor.execute("UPDATE consulta SET estado = 'ocupada' WHERE id = %s", (consulta_id,))
    
     cursor.execute("INSERT INTO atencion (consulta_id, no_historia_clinica) VALUES (%s, %s)", (consulta_id, no_historia_clinica))
@@ -104,7 +104,7 @@ def liberar_consultas():
         cursor.execute("UPDATE consulta SET estado = 'en_espera' WHERE estado = 'ocupada'")
         connection.commit()
 
-        # Paso 2: Atender a los pacientes en la sala de espera
+       
         atender_pacientes_en_espera(connection)
 
     except Exception as e:
@@ -158,7 +158,7 @@ def atender_paciente_individual(no_historia_clinica, cursor, connection):
 
 
 
-# Definir más rutas aquí para las otras funcionalidades
+
 
 if __name__ == '__main__':
     app.run(debug=True)
